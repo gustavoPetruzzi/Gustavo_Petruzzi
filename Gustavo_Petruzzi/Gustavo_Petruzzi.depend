@@ -1,0 +1,30 @@
+# depslib dependency file v1.0
+1462728023 source:c:\users\gustavo\desktop\c\input.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1462733670 source:c:\users\gustavo\desktop\c\gustavo_petruzzi\input.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1462734318 source:c:\users\gustavo\desktop\c\gustavo_petruzzi\lib.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<string.h>
+	"input.h"
+	"lib.h"
+
+1462729022 c:\users\gustavo\desktop\c\gustavo_petruzzi\input.h
+
+1462734645 c:\users\gustavo\desktop\c\gustavo_petruzzi\lib.h
+
+1462734344 source:c:\users\gustavo\desktop\c\gustavo_petruzzi\main.c
+	<stdio.h>
+	<stdlib.h>
+	"lib.h"
+
