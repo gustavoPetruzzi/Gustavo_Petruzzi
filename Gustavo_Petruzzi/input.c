@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-
+#include "input.h"
 /**
 * \brief Solicita un número al usuario y lo valida
 * \param input Se carga el numero ingresado
@@ -144,15 +143,17 @@ int getString(char* input,char message[],char eMessage[], int lowLimit, int hiLi
     resp = scanf("%s", auxChar);
     if(resp == 1 && (strlen(auxChar)>lowLimit && strlen(auxChar) < hiLimit ) )
     {
+
             strcpy(input, auxChar);
             return 0;
+
+
     }
 
 
     printf("%s", eMessage);
     return -1;
 }
-
 
 /**
 * \brief Solicita una cadena de caracteres de solo letras y la valida
@@ -234,7 +235,3 @@ int getEmail(char* input,char message[],char eMessage[], int lowLimit, int hiLim
     printf("%s", eMessage);
     return -1;
 }
-
-
-
-

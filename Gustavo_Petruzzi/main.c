@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lib.h"
+#include <string.h>
 #define MAX_PELICULAS 1000
 #define MAX_DIRECTORES 500
 int main()
@@ -13,89 +14,143 @@ int main()
     int auxInt;
 
 
-    initPeliculas = initArrayPelicula(peliculas, MAX_PELICULAS);
+    initPeliculas = initArrayPeliculas(peliculas, MAX_PELICULAS);
     initDirectores = initArrayDirectores(directores, MAX_DIRECTORES);
-    if(initPeliculas == 0 && initDirectores == 0)
+
+    strcpy(directores[0].nombre,"Jose");
+    strcpy(directores[0].fechaNacimiento, "21/11/1991");
+    strcpy(directores[0].paisOrigen, "Argentina");
+    directores[0].idDirector = 1;
+    directores[0].isEmpty = 0;
+
+    strcpy(directores[1].nombre,"Juan");
+    strcpy(directores[1].fechaNacimiento, "11/02/1982");
+    strcpy(directores[1].paisOrigen, "chile");
+    directores[1].idDirector = 2;
+    directores[1].isEmpty = 0;
+
+    strcpy(peliculas[0].titulo, "El perror");
+    peliculas[0].anio = 1991;
+    strcpy(peliculas[0].nacionalidad,"Argentina");
+    peliculas[0].idPelicula = 1;
+    peliculas[0].idDirector = 1;
+    peliculas[0].isEmpty = 0;
+
+    strcpy(peliculas[1].titulo, "puto el que lee");
+    peliculas[1].anio = 2015;
+    strcpy(peliculas[1].nacionalidad, "Argentina");
+    peliculas[1].idPelicula = 2;
+    peliculas[1].idDirector = 1;
+    peliculas[1].isEmpty = 0;
+
+
+
+    strcpy(peliculas[3].titulo, "El perror");
+    peliculas[3].anio = 1998;
+    strcpy(peliculas[3].nacionalidad,"chile");
+    peliculas[3].idPelicula = 3;
+    peliculas[3].idDirector = 2;
+    peliculas[3].isEmpty = 0;
+
+
+
+    if(initDirectores == 0 && initPeliculas == 0)
     {
-        do
-        {
-            opcion = mostrarMenu("1-ALTAS PELICULAS\n2-MODIFICAR DATOS DE UNA PELICULA\n3-BAJA DE PELICULA\n4-NUEVO DIRECTOR\n5-ELIMINAR DIRECTOR\n6-INFORMAR\n7-LISTAR\n8-SALIR\n", '1', '8');
+
+
+        do{
+            opcion = mostrarMenu("1-ALTAS\n2-MODIFICAR\n3-BAJA PELICULA\n4-NUEVO DIRECTOR\n5-ELIMINAR DIRECTOR\n6-INFORMAR\n7-LISTAR\n8-SALIR", '1', '8');
             system("cls");
             switch(opcion)
             {
-                case '1':
-                    auxInt = isEmptyDirector(directores, MAX_DIRECTORES);
-                    if(auxInt == 0)
-                    {
-                        agregarPelicula(peliculas, MAX_PELICULAS, directores, MAX_PELICULAS);
-                    }
-                    else
-                    {
-                        printf("No hay ningun director cargado\n!");
-                    }
-                    system("pause");
-                    system("cls");
-                    break;
-                case '2':
-                    auxInt = isEmptyPelicula(peliculas,MAX_PELICULAS);
-                    if(auxInt == 0)
-                    {
-                        modificar(peliculas, MAX_PELICULAS,directores, MAX_PELICULAS);
-                    }
-                    else
-                    {
-                        printf("No hay ninguna pelicula cargada\n!");
-                    }
-                    system("pause");
-                    system("cls");
-                    break;
-                case '3':
-                    auxInt = isEmptyPelicula(peliculas,MAX_PELICULAS);
-                    if(auxInt == 0)
-                    {
-                        borrar(peliculas, MAX_PELICULAS);
-                    }
-                    else
-                    {
-                        printf("No hay ninguna pelicula cargada\n!");
-                    }
-                    system("pause");
-                    system("cls");
-                    break;
-                case '4':
-                        nuevoDirector(directores, MAX_DIRECTORES);
-                    break;
-                case '5':
-                        auxInt = isEmptyDirector(directores, MAX_DIRECTORES);
-                    if(auxInt == 0)
-                    {
-                        eliminarDirector(directores, MAX_DIRECTORES);
-                    }
-                    else
-                    {
-                        printf("No hay ningun director cargado!\n");
-                    }
-                    system("pause");
-                    system("cls");
-                    break;
-                case '6':
-                    system("pause");
-                    system("cls");
-                    break;
-                case '7':
-                    system("pause");
-                    system("cls");
-                    break;
-                case '8':
-                    break;
+            case '1':
+                auxInt = isEmptyDirector(directores, MAX_DIRECTORES);
+                if(auxInt == 0)
+                {
+                    agregarPelicula(peliculas, MAX_PELICULAS);
+                }
+                else
+                {
+                    printf("No hay ningun director ingresado\nPor favor, para agregar alguna pelicula ingrese un director\n");
+                }
+                system("pause");
+                system("cls");
+                break;
+            case '2':
+                auxInt = isEmptyPelicula(peliculas, MAX_PELICULAS);
+                if(auxInt == 0)
+                {
+                    modificar(peliculas, MAX_PELICULAS);
+                }
+                else
+                {
+                    printf("No hay ninguna pelicula ingresada!");
+                }
+                system("pause");
+                system("cls");
+                break;
+            case '3':
+                auxInt = isEmptyPelicula(peliculas, MAX_PELICULAS);
+                if(auxInt == 0)
+                {
+                    borrar(peliculas, MAX_PELICULAS);
+                }
+                else
+                {
+                    printf("No hay ninguna pelicula ingresada!");
+                }
+                system("pause");
+                system("cls");
+                break;
+            case '4':
+                nuevoDirector(directores, MAX_DIRECTORES);
+                system("pause");
+                system("cls");
+                break;
+            case '5':
+                auxInt = isEmptyDirector(directores, MAX_DIRECTORES);
+                if(auxInt ==0)
+                {
+                    borrarDirector(directores, MAX_DIRECTORES);
+                }
+                else
+                {
+                    printf("No hay ningun director cargado!");
+                }
+                system("pause");
+                system("cls");
+                break;
+            case '6':
+                auxInt = isEmptyPelicula(peliculas, MAX_PELICULAS);
+                if(auxInt ==0)
+                {
+                    informar(directores,MAX_DIRECTORES, peliculas, MAX_PELICULAS);
+                }
+                break;
+            case '7':
+                auxInt = isEmptyPelicula(peliculas, MAX_PELICULAS);
+                if(auxInt ==0)
+                {
+                    ordenar(peliculas, MAX_PELICULAS);
+                    mostrarPeliculas(peliculas,MAX_PELICULAS, directores, MAX_DIRECTORES);
+                }
+                else
+                {
+                    printf("No hay ninguna pelicula ingresada!");
+                }
+                system("pause");
+                system("cls");
+                break;
+            case '8':
+                break;
             }
-        }while(opcion!='8');
 
+        }while(opcion!='8');
     }
     else
     {
-        printf("Ha ocurrido un error");
+        printf("No se pudo inicilizar el programa");
     }
-
     return 0;
 }
+
