@@ -26,10 +26,6 @@ int initArrayPeliculas(ePelicula* pPelicula, int length)
         }
         retorno = 0;
     }
-    else
-    {
-        printf("No ningun directorio de peliculas!");
-    }
     return retorno;
 }
 
@@ -72,28 +68,17 @@ int initArrayDirectores(eDirector* pDirector, int length)
 
 char mostrarMenu( char textomenu[], char min, char max )
 {
-    char opcion ='|';
-    int flagPrimera = 1;
-
-
-    do
-    {
-        if((opcion < min || opcion > max) && flagPrimera != 1)
-        {
-            printf("ERROR: reingrese\n");
-        }
-        printf("%s", textomenu);
-        fflush(stdin);
-        scanf("%c",&opcion);
-        flagPrimera = 0;
-    }while(opcion < min || opcion > max);
+    char opcion;
+    printf("%s", textomenu);
+    fflush(stdin);
+    scanf("%c",&opcion);
     return opcion;
 }
 
 /**
  * Obtiene el primer indice libre del array.
- * @param lista el array se pasa como parametro.
- * @param length la cantidad total de items
+ * @param ePelicula* pPelicula el array se pasa como parametro.
+ * @param int length la cantidad total de items
  * @return el primer indice disponible o [-1] si no hay espacio libre
  */
 int obtenerEspacioLibre(ePelicula* pPelicula,int length)
@@ -112,17 +97,20 @@ int obtenerEspacioLibre(ePelicula* pPelicula,int length)
             }
         }
     }
-    else
-    {
-        printf("No ningun directorio de peliculas!");
-    }
-
     return index;
 }
 
+/** \brief Busca la posicion en el array del dato pasado por parametro
+ *
+ * \param ePelicula * pPelicula array donde busca lo pasado por parametro
+ * \param int length tamaño total del array
+ * \param int idPelicula dato que busca en el array
+ * \return devuelve la posicion donde se haya el dato pasado por parametro
+ *
+ */
 
 
-int buscarIdPelicula(ePelicula* pPelicula, int length, int idPelicula)
+int buscarPorIdPelicula(ePelicula* pPelicula, int length, int idPelicula)
 {
     int i;
     int index = -1;
@@ -141,29 +129,25 @@ int buscarIdPelicula(ePelicula* pPelicula, int length, int idPelicula)
             }
         }
     }
-    else
-    {
-        printf("No ningun directorio de peliculas!");
-    }
-
     return index;
 }
 
 /** \brief le solicita datos al usuario
  *
- * \param lista[] lugar donde recorre los indices
+ * \param ePelicula* pPelicula lugar donde recorre los indices
  * \param int lenght tamaño del array
- * \param char* nombre dato pedido al usuario
- * \param char* nick dato pedido al usuario
- * \param char* claveAcceso dato pedido al usuario
- * \param char* email dato pedido al usuario
- * \param int pedirNick si es [1] le pide el nick al usuariom si es [0] no se lo pide
+ * \param char* titulo dato pedido al usuario
+ * \param int* anio dato pedido al usuario
+ * \param char* Nacionalidad dato pedido al usuario
+ * \param int* idDirector dato pedido al usuario
+ * \param int* idPelicula dato pedido al usuario
+ * \param int pedirId si el parametro pasado es 1, se le solicita el id al usuario, si es cualquier otro numero, no se le pide
  * \return
  *
  */
 
 
-void pedirDatosPelicula(ePelicula* pPelicula, int length, char* titulo,int* anio, char* Nacionalidad,int* idDirector, int* idPelicula, int pedirId)
+int pedirDatosPelicula(ePelicula* pPelicula, int lengthPelicula,eDirector* pDirector, int lengthDirector, char* titulo,int* anio, char* Nacionalidad,int* idDirector, int* idPelicula, int pedirId)
 {
     char auxTitulo[50];
     int auxAnio;
@@ -172,13 +156,16 @@ void pedirDatosPelicula(ePelicula* pPelicula, int length, char* titulo,int* anio
     int auxIdPelicula;
     int auxInt;
     int auxIndice;
+    int retorno = 1;
+    char seguir = 's';
 
-    if(pPelicula != NULL && length> 0)
+    if(pPelicula != NULL && lengthPelicula> 0)
     {
         do
         {
-            auxInt = getString(auxTitulo, "Ingrese el nombre de la pelicula: ", "ERROR: Maximo 50 caracteres y solo letras\n", 1, 50);
+            auxInt = getStringSpace(auxTitulo, "Ingrese el titulo de la pelicula: ", "Error: Maximo 50 caracteres\n", 0, 50);
         }while(auxInt!=0);
+
         strcpy(titulo, auxTitulo);
         system("cls");
 
@@ -196,12 +183,6 @@ void pedirDatosPelicula(ePelicula* pPelicula, int length, char* titulo,int* anio
         strcpy(Nacionalidad, auxNacionalidad);
         system("cls");
 
-        do
-        {
-            auxInt = getInt(&auxIdDirector, "Ingrese ID del director: ", "ERROR: solo se permite entre 1 y 500\n", 0, 501);
-        }while(auxInt!=0);
-        *idDirector = auxIdDirector;
-        system("cls");
 
 
         if(pedirId)
@@ -210,15 +191,14 @@ void pedirDatosPelicula(ePelicula* pPelicula, int length, char* titulo,int* anio
             do
             {
                 auxInt = getInt(&auxIdPelicula,"Ingrese el id de la pelicula: ", "ERROR: solo numeros entre 1 y 1000\n", 0,1001);
-                auxIndice = buscarIdPelicula(pPelicula, length, auxIdPelicula);
-                if(auxIndice == -1)
+                auxIndice = buscarPorIdPelicula(pPelicula, lengthPelicula, auxIdPelicula);
+                if(auxIndice == -1 && auxInt == 0)
                 {
                     *idPelicula = auxIdPelicula;
                 }
                 else
                 {
                     printf("Ya existe ese ID cargado!\n");
-                    printf("%d", auxIndice);
                     auxInt = -1;
                 }
 
@@ -227,11 +207,51 @@ void pedirDatosPelicula(ePelicula* pPelicula, int length, char* titulo,int* anio
             system("cls");
         }
     }
-    else
-    {
-        printf("No ningun directorio de peliculas!");
-    }
+
+    do
+        {
+            auxInt = getInt(&auxIdDirector, "Ingrese ID del director: ", "ERROR: solo se permite entre 1 y 500\n", 0, 501);
+            auxIndice = buscarPorIdDirector(pDirector, lengthDirector, auxIdDirector);
+            if(auxIndice != -1)
+            {
+                *idDirector = auxIdDirector;
+                seguir = 'n';
+            }
+            else
+            {
+                printf("Ese Id no se encuentra cargado\nDesea seguir?: s/n");
+                do
+                {
+                    fflush(stdin);
+                    scanf("%c",&seguir);
+                    if(seguir !='n' && seguir!='s')
+                    {
+                        printf("caracter no valido\n ingrese \"s\" para seguir o \"n\" para salir");
+                    }
+                }while(seguir !='n' && seguir !='s');
+                if(seguir=='n')
+                {
+                    retorno = 0;
+                    break;
+                }
+            }
+        }while(auxInt!=0 || seguir == 's');
+        printf("%c", seguir);
+        system("cls");
+
+
+    return retorno;
 }
+/** \brief carga un elemento del array de estructura
+ *
+ * \param char auxTitulo[] dato a ser cargado en el array
+ * \param  int auxAnio dato a ser cargado en el array
+ * \param  char auxNacionalidad[] dato a ser cargado en el array
+ * \param  int auxIdDirector dato a ser cargado en el array
+ * \param  int auxIdPelicula dato a ser cargado en el array
+ * \return un elemento del array de estructuras
+ *
+ */
 
 
 ePelicula cargarPelicula(char auxTitulo[],int auxAnio, char auxNacionalidad[],int auxIdDirector, int auxIdPelicula)
@@ -241,15 +261,23 @@ ePelicula cargarPelicula(char auxTitulo[],int auxAnio, char auxNacionalidad[],in
     strcpy(auxPelicula.titulo, auxTitulo );
     auxPelicula.anio = auxAnio;
     strcpy(auxPelicula.nacionalidad, auxNacionalidad);
-    auxPelicula.idDirector = auxAnio;
+    auxPelicula.idDirector = auxIdDirector;
     auxPelicula.idPelicula = auxIdPelicula;
     auxPelicula.isEmpty = 0;
 
     return auxPelicula;
 }
 
+/** \brief agrega un elemento al array de estructura en una posicion libre
+ *
+ * \param ePelicula* pPelicula array de estructura donde agrega el elemento
+ * \param int length tamaño total del array de estructuras
+ * \return
+ *
+ */
 
-void agregarPelicula(ePelicula* pPelicula, int length)
+
+void agregarPelicula(ePelicula* pPelicula, int lengthPelicula,eDirector* pDirector, int lengthDirector)
 {
     int indice;
     char auxTitulo[50];
@@ -257,33 +285,37 @@ void agregarPelicula(ePelicula* pPelicula, int length)
     char auxNacionalidad[50];
     int auxIdDirector;
     int auxIdPelicula;
+    int auxInt;
 
-    if(pPelicula != NULL && length> 0)
+    if(pPelicula != NULL && lengthPelicula> 0)
     {
-        indice =obtenerEspacioLibre(pPelicula, length);
+        indice =obtenerEspacioLibre(pPelicula, lengthPelicula);
         if(indice!= -1)
         {
-            pedirDatosPelicula(pPelicula, length, auxTitulo,&auxAnio, auxNacionalidad, &auxIdDirector, &auxIdPelicula, 1);
-            pPelicula[indice] =cargarPelicula(auxTitulo, auxAnio, auxNacionalidad,auxIdDirector, auxIdPelicula);
-            printf("Usuario cargado!");
+            auxInt = pedirDatosPelicula(pPelicula, lengthPelicula, pDirector, lengthDirector, auxTitulo,&auxAnio, auxNacionalidad, &auxIdDirector, &auxIdPelicula, 1);
+            if(auxInt)
+            {
+                pPelicula[indice] =cargarPelicula(auxTitulo, auxAnio, auxNacionalidad,auxIdDirector, auxIdPelicula);
+                printf("Pelicula cargada!\n");
+            }
+            else
+            {
+                printf("No se ha cargado la pelicula\n");
+            }
         }
         else
         {
-            printf("No hay mas lugar para agregar peliculas!");
+            printf("No hay mas lugar para agregar peliculas!\n");
         }
-    }
-    else
-    {
-        printf("No ningun directorio de peliculas!");
     }
 }
 
-/** \brief Indica si existe algun producto cargado
+/** \brief Indica si existe algun elemento cargado
  *
  * \param puntero lista[] lugar donde va a iterar la funcion
  * \param int length tamaño maximo del array de estructura
- * \return devuelve [1] si el array no tiene ningun producto cargado o
- *         [0] si esta cargado con aunque sea un producto
+ * \return devuelve [1] si el array no tiene ningun elemento cargado o
+ *         [0] si esta cargado con aunque sea un elemento
  */
 int isEmptyPelicula(ePelicula* pPelicula, int length)
 {
@@ -300,13 +332,17 @@ int isEmptyPelicula(ePelicula* pPelicula, int length)
             }
         }
     }
-    else
-    {
-        printf("No ningun directorio de peliculas!");
-    }
     return retorno;
 }
 
+
+/** \brief Indica si existe algun elemento cargado
+ *
+ * \param puntero lista[] lugar donde va a iterar la funcion
+ * \param int length tamaño maximo del array de estructura
+ * \return devuelve [1] si el array no tiene ningun elemento cargado o
+ *         [0] si esta cargado con aunque sea un elemento
+ */
 int isEmptyDirector(eDirector* pDirector, int length)
 {
     int i;
@@ -322,15 +358,18 @@ int isEmptyDirector(eDirector* pDirector, int length)
             }
         }
     }
-    else
-    {
-        printf("No ningun directorio de peliculas!");
-    }
     return retorno;
 }
 
+/** \brief modifica los datos cargados en algun elemento
+ *
+ * \param ePelicula* pPelicula array de estructuras donde busca el elemento a modificar
+ * \param int length tamaño total del array
+ * \return
+ *
+ */
 
-void modificar(ePelicula* pPelicula, int length)
+void modificar(ePelicula* pPelicula, int lengthPelicula,eDirector* pDirector, int lengthDirector)
 {
     int indice;
     char auxTitulo[50];
@@ -340,53 +379,64 @@ void modificar(ePelicula* pPelicula, int length)
     int auxIdPelicula;
     int auxInt;
 
-    if(pPelicula != NULL && length> 0)
+    if(pPelicula != NULL && lengthPelicula> 0)
     {
-        auxInt = getInt(&auxIdPelicula, "Ingrese el id a buscar", "ERROR: solamente se puede ingresar de 1 a 1000", 0, 1001);
+        auxInt = getInt(&auxIdPelicula, "Ingrese el id a buscar", "ERROR: solamente se puede ingresar de 1 a 1000\n", 0, 1001);
         if(auxInt==0)
         {
 
-            indice = buscarIdPelicula(pPelicula, length,auxIdPelicula);
+            indice = buscarPorIdPelicula(pPelicula, lengthPelicula,auxIdPelicula);
             if(indice != -1)
             {
-                pedirDatosPelicula(pPelicula, length,auxTitulo, &auxAnio, auxNacionalidad,&auxIdDirector, &auxIdPelicula, 0);
+                pedirDatosPelicula(pPelicula, lengthPelicula,pDirector, lengthDirector, auxTitulo, &auxAnio, auxNacionalidad,&auxIdDirector, &auxIdPelicula, 0);
                 pPelicula[indice] = cargarPelicula(auxTitulo, auxAnio, auxNacionalidad, auxIdDirector, auxIdPelicula);
             }
             else
             {
-                printf("No existe ese Id");
+                printf("No existe ese Id\n");
             }
         }
     }
-    else
-    {
-        printf("No ningun directorio de peliculas!");
-    }
-
 }
 
+/** \brief borra un elemento cargado en el array
+ *
+ * \param ePelicula* pPelicula array de estructuras donde busca el elemento a modificar
+ * \param int length tamaño total del array
+ * \return
+ *
+ */
 
 void borrar(ePelicula* pPelicula, int length)
 {
     int auxIdPelicula;
     int auxInt;
     int indice;
-    auxInt = getInt(&auxIdPelicula, "Ingrese el ID de la pelicula a borrar: ", "ERROR: solo se permite de 1 a 1000", 0, 1001);
-    if(auxInt== 0)
+    if(pPelicula != NULL && length> 0)
     {
-        indice = buscarIdPelicula(pPelicula, length, auxIdPelicula);
-        if(indice != -1)
+        auxInt = getInt(&auxIdPelicula, "Ingrese el ID de la pelicula a borrar: ", "ERROR: solo se permite de 1 a 1000\n", 0, 1001);
+        if(auxInt== 0)
         {
-            pPelicula[indice].isEmpty = 1;
-        }
-        else
-        {
-            printf("No existe ningun producto con ese codigo\n!");
+            indice = buscarPorIdPelicula(pPelicula, length, auxIdPelicula);
+            if(indice != -1)
+            {
+                pPelicula[indice].isEmpty = 1;
+            }
         }
     }
 }
 
-int buscarNombreDirector(eDirector* pDirector, int length, char nombre[])
+
+/** \brief busca el indice del elemento segun el dato pasado por parametro
+ *
+ * \param eDirector* pDirector array de estructura donde busca el indice
+ * \param int length tamaño total del array
+ * \param char nombre[] dato por el cual busca el indice
+ * \return indice del elemento buscado
+ *
+ */
+
+int buscarPorNombreDirector(eDirector* pDirector, int length, char nombre[])
 {
     int i;
     int index = -1;
@@ -405,15 +455,20 @@ int buscarNombreDirector(eDirector* pDirector, int length, char nombre[])
             }
         }
     }
-    else
-    {
-        printf("No ningun directorio de peliculas!");
-    }
-
     return index;
 }
 
-int buscarIdDirector(eDirector* pDirector, int length, int idDirector)
+
+/** \brief busca el indice del elemento segun el dato pasado por parametro
+ *
+ * \param eDirector* pDirector array de estructura donde busca el indice
+ * \param int length tamaño total del array
+ * \param  int idDirector dato por el cual busca el indice
+ * \return indice del elemento buscado
+ *
+ */
+
+int buscarPorIdDirector(eDirector* pDirector, int length, int idDirector)
 {
     int i;
     int index = -1;
@@ -434,11 +489,25 @@ int buscarIdDirector(eDirector* pDirector, int length, int idDirector)
     }
     else
     {
-        printf("No ningun directorio de peliculas!");
+        printf("No ningun directorio de peliculas!\n");
     }
 
     return index;
 }
+
+
+
+/** \brief le solicita datos al usuario
+ *
+ * \param eDirector* pDirectora lugar donde recorre los indices
+ * \param int lenght tamaño del array
+ * \param char* nombre dato pedido al usuario
+ * \param char* fechaNacimiento dato pedido al usuario
+ * \param char* paisOrigen dato pedido al usuario
+ * \param int* idDirector dato pedido al usuario
+ * \return
+ *
+ */
 void pedirDatosDirector(eDirector* pDirector, int length,char* nombre,char* fechaNacimiento,char* paisOrigen, int* idDirector)
 {
     char auxNombre[50];
@@ -453,14 +522,14 @@ void pedirDatosDirector(eDirector* pDirector, int length,char* nombre,char* fech
         do
         {
             auxInt = getName(auxNombre, "Ingrese el nombre del director: ", "ERROR: Maximo 50 caracteres \n", 1, 50);
-            indice = buscarNombreDirector(pDirector, length, auxNombre);
+            indice = buscarPorNombreDirector(pDirector, length, auxNombre);
             if(indice == -1)
             {
                 strcpy(nombre, auxNombre);
             }
             else
             {
-                printf("Ese director ya existe!");
+                printf("Ese director ya existe!\n");
                 auxInt = -1;
             }
         }while(auxInt!=0);
@@ -475,32 +544,44 @@ void pedirDatosDirector(eDirector* pDirector, int length,char* nombre,char* fech
 
         do
         {
-            auxInt = getString(auxPaisOrigen, "Ingrese el pais de origen: ", "ERROR: Maximo 50 caracteres ", 1, 50);
+            auxInt = getString(auxPaisOrigen, "Ingrese el pais de origen: ", "ERROR: Maximo 50 caracteres\n ", 1, 50);
         }while(auxInt!=0);
         strcpy(paisOrigen, auxPaisOrigen);
         system("cls");
         do
         {
-            auxInt = getInt(&auxIdDirector, "Ingrese el id del director:", "ERROR: valido de 1 a 500", 0,501);
-            indice = buscarIdDirector(pDirector, length, auxIdDirector);
-            if(indice == -1)
+            auxInt = getInt(&auxIdDirector, "Ingrese el id del director: ", "ERROR: valido de 1 a 500\n", 0,501);
+            indice = buscarPorIdDirector(pDirector, length, auxIdDirector);
+            if(indice == -1 && auxInt == 0)
             {
                 *idDirector = auxIdDirector;
             }
             else
             {
-                printf("Ese director ya existe!");
+                printf("Ese director ya existe!\n");
                 auxInt = -1;
             }
         }while(auxInt!=0);
     }
     else
     {
-        printf("No ningun directorio de peliculas!");
+        printf("No ningun directorio de peliculas!\n");
     }
 
 
 }
+
+
+/** \brief carga un elemento del array de estructura
+ *
+ * \param char auxNombre[] dato a ser cargado en el array
+ * \param  char auxFechaNacimiento[] dato a ser cargado en el array
+ * \param  char auxPaisOrigen[] dato a ser cargado en el array
+ * \param  int auxIdDirector dato a ser cargado en el array
+ * \return un elemento del array de estructuras
+ *
+ */
+
 
 eDirector cargarDirector(char auxNombre[],char auxFechaNacimiento[],char auxPaisOrigen[], int auxIdDirector)
 {
@@ -515,6 +596,12 @@ eDirector cargarDirector(char auxNombre[],char auxFechaNacimiento[],char auxPais
     return auxDirector;
 }
 
+/**
+ * Obtiene el primer indice libre del array.
+ * @param eDirector* pDirector el array se pasa como parametro.
+ * @param int length la cantidad total de items
+ * @return el primer indice disponible o [-1] si no hay espacio libre
+ */
 
 int obtenerEspacioLibreDirector(eDirector* pDirector,int length)
 {
@@ -534,11 +621,19 @@ int obtenerEspacioLibreDirector(eDirector* pDirector,int length)
     }
     else
     {
-        printf("No ningun directorio de peliculas!");
+        printf("No ningun directorio de peliculas!\n");
     }
 
     return index;
 }
+
+/** \brief agrega un elemento al array de estructura en una posicion libre
+ *
+ * \param eDirector* pDirector array de estructura donde agrega el elemento
+ * \param int length tamaño total del array de estructuras
+ * \return
+ *
+ */
 
 void nuevoDirector(eDirector* pDirector, int length)
 {
@@ -555,18 +650,26 @@ void nuevoDirector(eDirector* pDirector, int length)
         {
             pedirDatosDirector(pDirector,length,auxNombre,auxFechaNacimiento,auxPaisOrigen,&auxIdDirector);
             pDirector[indice] = cargarDirector(auxNombre, auxFechaNacimiento, auxPaisOrigen, auxIdDirector);
-            printf("Director cargado!");
+            printf("Director cargado!\n");
         }
         else
         {
-            printf("No hay mas lugar para agregar peliculas!");
+            printf("No hay mas lugar para agregar peliculas!\n");
         }
     }
     else
     {
-        printf("No ningun directorio de peliculas!");
+        printf("No ningun directorio de peliculas!\n");
     }
 }
+
+/** \brief borra un elemento cargado en el array
+ *
+ * \param eDirector* pDirector array de estructuras donde busca el elemento a modificar
+ * \param int length tamaño total del array
+ * \return
+ *
+ */
 
 void borrarDirector(eDirector* pDirector, int length)
 {
@@ -576,27 +679,27 @@ void borrarDirector(eDirector* pDirector, int length)
     char opcion;
     if(pDirector != NULL && length> 0)
     {
-        auxInt = getName(auxnombre, "Ingrese el nombre del director a borrar: ", "ERROR: Maximo 50 caracteres y solo letras", 1, 50);
+        auxInt = getName(auxnombre, "Ingrese el nombre del director a borrar: ", "ERROR: Maximo 50 caracteres y solo letras\n", 1, 50);
         if(auxInt== 0)
         {
-            indice = buscarNombreDirector(pDirector, length, auxnombre);
+            indice = buscarPorNombreDirector(pDirector, length, auxnombre);
             if(indice != -1)
             {
-                printf("Desea eliminar director? s/n");
+                printf("Desea eliminar director? s/n\n");
                 fflush(stdin);
                 scanf("%c", &opcion);
                 if(opcion == 's')
                 {
                     pDirector[indice].isEmpty = 1;
-                    printf("Director Borrado");
+                    printf("Director Borrado\n");
                 }
                 else if(opcion == 'n')
                 {
-                    printf("accion cancelada");
+                    printf("accion cancelada\n");
                 }
                 else
                 {
-                    printf("Opcion no valida");
+                    printf("Opcion no valida\n");
                 }
             }
             else
@@ -611,12 +714,14 @@ void borrarDirector(eDirector* pDirector, int length)
     }
 }
 
-/** \brief recibe el array, el tamaño y el id del director
+/** \brief Cuenta la cantidad de veces que figura el parametro pasado en un miembro del
+           array de estructuras
  *
- * \param ePelicula* pPelicula
- * \param int length
- * \param int auxIdDirector
- * \return devuelve la cantidad de peliculas segun lo pasado por parametro
+ * \param ePelicula* pPelicula array de estructuras donde cuenta la cantidad
+ * \param int length tamaño  del array
+ * \param int auxIdDirector dato a comparar con un miembro del array de estructuras
+ * \return devuelve la cantidad de veces que figura el parametro pasado en un miembro del
+           array de estructuras
  *
  */
 
@@ -642,10 +747,21 @@ int cantidadPeliculasDirector(ePelicula* pPelicula, int length, int auxIdDirecto
     }
     else
     {
-        printf("No ningun directorio de peliculas!");
+        printf("No ningun directorio de peliculas!\n");
     }
     return cantidadPeliculas;
 }
+
+/** \brief Busca el director con mas peliculas
+ *
+ * \param eDirector* pDirector array de estructuras
+ * \param int lengthDirectores tamaño del array de estructuras como primer parametro
+ * \param ePelicula* pPelicula array de estructuras
+ * \param int lengthPelicula tamaño del array de estructuras pasado como tercer paramentro
+ * \return  la posicion donde se encuentra el director con mas peliculas
+ *
+ */
+
 int directorMasPeliculas(eDirector* pDirector, int lengthDirectores, ePelicula* pPelicula, int lengthPelicula)
 {
     int i;
@@ -686,16 +802,28 @@ int directorMasPeliculas(eDirector* pDirector, int lengthDirectores, ePelicula* 
     }
     return indiceDirectorMaspeliculas;
 }
+
+
+/** \brief informa al director con mas peliculas y las peliculas con mas directores
+ *
+ * \param eDirector* pDirector array de estructuras
+ * \param int lengthDirector tamaño del array de estructuras como primer parametro
+ * \param ePelicula* pPelicula array de estructuras
+ * \param int lengthPelicula tamaño del array de estructuras pasado como tercer paramentro
+ * \return
+ *
+ */
+
 void informar(eDirector* pDirector, int lengthDirector, ePelicula* pPelicula, int lengthPelicula)
 {
     char opcion;
     int indiceDirector;
-    opcion = mostrarMenu("1-Director con mas peliculas\n2-peliculas con mas directores", '1', '2');
+    opcion = mostrarMenu("1-Director con mas peliculas\n2-peliculas con mas directores\n", '1', '2');
     switch(opcion)
     {
         case '1':
             indiceDirector = directorMasPeliculas(pDirector, lengthDirector, pPelicula, lengthPelicula);
-            printf("El director con mas peliculas es: %s", pDirector[indiceDirector].nombre);
+            printf("El director con mas peliculas es: %s\n", pDirector[indiceDirector].nombre);
             break;
         case '2':
             printf("NOT YET");
@@ -703,6 +831,14 @@ void informar(eDirector* pDirector, int lengthDirector, ePelicula* pPelicula, in
     }
 
 }
+
+/** \brief ordena el array estructura pasado por parametro
+ *
+ * \param ePelicula* pPelicula array a estructuras a ser ordenado
+ * \param int length tamaño del array de estructuras
+ * \return
+ *
+ */
 
 void ordenar(ePelicula* pPelicula, int length)
 {
@@ -731,6 +867,16 @@ void ordenar(ePelicula* pPelicula, int length)
     }
 }
 
+/** \brief muestra por pantalla los miembros de la estructura
+ *
+ * \param eDirector* pDirector array de estructuras
+ * \param int lengthDirector tamaño del array de estructuras como primer parametro
+ * \param ePelicula* pPelicula array de estructuras
+ * \param int lengthPelicula tamaño del array de estructuras pasado como tercer paramentro
+ * \return
+ *
+ */
+
 
 void mostrarPeliculas(ePelicula* pPelicula, int length, eDirector* pDirector, int lengthDirectores)
 {
@@ -742,8 +888,8 @@ void mostrarPeliculas(ePelicula* pPelicula, int length, eDirector* pDirector, in
         {
             if(pPelicula[i].isEmpty == 0)
             {
-                indice = buscarIdDirector(pDirector, lengthDirectores, pPelicula[i].idDirector);
-                printf("Pelicula : \n\t%s\nDirector:\n\t%s\nAnio:%d\n\t%s\nNacionalidad\n\t%s\n\n\n\n\n", pPelicula[i].titulo, pDirector[indice].nombre,pPelicula[i].anio, pDirector[indice].paisOrigen);
+                indice = buscarPorIdDirector(pDirector, lengthDirectores, pPelicula[i].idDirector);
+                printf("Pelicula : \n\t%s\nDirector:\n\t%s\nAnio:\n\t%d\nNacionalidad:\n\t%s\n\n\n\n\n", pPelicula[i].titulo, pDirector[indice].nombre,pPelicula[i].anio, pDirector[indice].paisOrigen);
             }
 
         }

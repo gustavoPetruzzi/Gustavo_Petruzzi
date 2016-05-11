@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "input.h"
 /**
 * \brief Solicita un número al usuario y lo valida
@@ -149,8 +150,6 @@ int getString(char* input,char message[],char eMessage[], int lowLimit, int hiLi
 
 
     }
-
-
     printf("%s", eMessage);
     return -1;
 }
@@ -231,6 +230,32 @@ int getEmail(char* input,char message[],char eMessage[], int lowLimit, int hiLim
                 return 0;
             }
         }
+    }
+    printf("%s", eMessage);
+    return -1;
+}
+
+
+/**
+* \brief Solicita una cadena de caracteres que admite espacio al usuario y la valida
+* \param input Se carga el string ingresado
+* \param message Es el mensaje a ser mostrado
+* \param eMessage Es el mensaje a ser mostrado en caso de error
+* \param lowLimit Longitud mínima de la cadena
+* \param hiLimit Longitud máxima de la cadena
+* \return Si obtuvo la cadena [0] si no [-1]
+*
+*/
+int getStringSpace(char* input,char message[],char eMessage[], int lowLimit, int hiLimit)
+{
+    char auxChar[50];
+    printf("%s", message);
+    fflush(stdin);
+    gets(auxChar);
+    if(strlen(auxChar)>lowLimit && strlen(auxChar) < hiLimit )
+    {
+        strcpy(input, auxChar);
+        return 0;
     }
     printf("%s", eMessage);
     return -1;

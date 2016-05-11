@@ -47,3 +47,28 @@
 	"lib.h"
 	"input.h"
 
+1462890446 source:e:\gustavo_petruzzi\input.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"input.h"
+
+1462888000 e:\gustavo_petruzzi\input.h
+
+1462913370 source:e:\gustavo_petruzzi\lib.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<string.h>
+	"lib.h"
+	"input.h"
+
+1462912870 e:\gustavo_petruzzi\lib.h
+
+1462913044 source:e:\gustavo_petruzzi\main.c
+	<stdio.h>
+	<stdlib.h>
+	"lib.h"
+	<string.h>
+
