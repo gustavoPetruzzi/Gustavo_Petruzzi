@@ -99,7 +99,7 @@ int getFloat(float* input,char message[],char eMessage[], float lowLimit, float 
 */
 int getChar(char* input,char message[],char eMessage[], char lowLimit, char hiLimit)
 {
-    char auxChar[10];
+    char auxChar[5];
     int resp;
     printf("%s", message);
     fflush(stdin);
@@ -254,6 +254,7 @@ int getStringSpace(char* input,char message[],char eMessage[], int lowLimit, int
     gets(auxChar);
     if(strlen(auxChar)>lowLimit && strlen(auxChar) < hiLimit )
     {
+        toupper(auxChar[0]);
         strcpy(input, auxChar);
         return 0;
     }

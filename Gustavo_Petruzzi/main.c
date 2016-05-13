@@ -17,7 +17,7 @@ int main()
     initPeliculas = initArrayPeliculas(peliculas, MAX_PELICULAS);
     initDirectores = initArrayDirectores(directores, MAX_DIRECTORES);
 
- /*   strcpy(directores[0].nombre,"Jose");
+    strcpy(directores[0].nombre,"Jose");
     strcpy(directores[0].fechaNacimiento, "21/11/1991");
     strcpy(directores[0].paisOrigen, "Argentina");
     directores[0].idDirector = 1;
@@ -29,6 +29,13 @@ int main()
     directores[1].idDirector = 2;
     directores[1].isEmpty = 0;
 
+    strcpy(directores[2].nombre,"Jorge");
+    strcpy(directores[2].fechaNacimiento, "11/02/1994");
+    strcpy(directores[2].paisOrigen, "EEUU");
+    directores[2].idDirector = 3;
+    directores[2].isEmpty = 0;
+
+
     strcpy(peliculas[0].titulo, "El perror");
     peliculas[0].anio = 1991;
     strcpy(peliculas[0].nacionalidad,"Argentina");
@@ -36,7 +43,7 @@ int main()
     peliculas[0].idDirector = 1;
     peliculas[0].isEmpty = 0;
 
-    strcpy(peliculas[1].titulo, "puto el que lee");
+    strcpy(peliculas[1].titulo, "Puto el que lee");
     peliculas[1].anio = 2015;
     strcpy(peliculas[1].nacionalidad, "Argentina");
     peliculas[1].idPelicula = 2;
@@ -50,7 +57,29 @@ int main()
     strcpy(peliculas[2].nacionalidad,"chile");
     peliculas[2].idPelicula = 3;
     peliculas[2].idDirector = 2;
-    peliculas[2].isEmpty = 0;*/
+    peliculas[2].isEmpty = 0;
+
+    strcpy(peliculas[3].titulo, "Star Wars IV");
+    peliculas[3].anio = 1998;
+    strcpy(peliculas[3].nacionalidad,"EEUU");
+    peliculas[3].idPelicula = 4;
+    peliculas[3].idDirector = 3;
+    peliculas[3].isEmpty = 0;
+
+    strcpy(peliculas[4].titulo, "Star Wars V");
+    peliculas[4].anio = 1998;
+    strcpy(peliculas[4].nacionalidad,"EEUU");
+    peliculas[4].idPelicula = 5;
+    peliculas[4].idDirector = 3;
+    peliculas[4].isEmpty = 0;
+
+    strcpy(peliculas[5].titulo, "Star Wars VI");
+    peliculas[5].anio = 1998;
+    strcpy(peliculas[5].nacionalidad,"EEUU");
+    peliculas[5].idPelicula = 6;
+    peliculas[5].idDirector = 3;
+    peliculas[5].isEmpty = 0;
+
 
 
 
@@ -71,6 +100,7 @@ int main()
                     {
                         system("cls");
                         agregarPelicula(peliculas, MAX_PELICULAS, directores, MAX_PELICULAS);
+
                     }
                     else
                     {
@@ -98,6 +128,7 @@ int main()
                     auxInt = isEmptyPelicula(peliculas, MAX_PELICULAS);
                     if(auxInt == 0)
                     {
+                        system("cls");
                         borrar(peliculas, MAX_PELICULAS);
                     }
                     else

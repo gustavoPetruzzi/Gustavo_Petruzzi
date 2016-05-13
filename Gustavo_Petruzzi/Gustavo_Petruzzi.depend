@@ -1,21 +1,22 @@
 # depslib dependency file v1.0
-1462659179 source:c:\users\gustavo\desktop\gustavo_petruzzi\input.c
+1463102955 source:c:\users\gustavo\desktop\gustavo_petruzzi\input.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<ctype.h>
 	"input.h"
 
-1462659023 c:\users\gustavo\desktop\gustavo_petruzzi\input.h
+1462888000 c:\users\gustavo\desktop\gustavo_petruzzi\input.h
 
-1462670071 source:c:\users\gustavo\desktop\gustavo_petruzzi\main.c
+1463101817 source:c:\users\gustavo\desktop\gustavo_petruzzi\main.c
 	<stdio.h>
 	<stdlib.h>
 	"lib.h"
 	<string.h>
 
-1462669795 c:\users\gustavo\desktop\gustavo_petruzzi\lib.h
+1462912870 c:\users\gustavo\desktop\gustavo_petruzzi\lib.h
 
-1462670400 source:c:\users\gustavo\desktop\gustavo_petruzzi\lib.c
+1463103273 source:c:\users\gustavo\desktop\gustavo_petruzzi\lib.c
 	<stdio.h>
 	<stdlib.h>
 	<ctype.h>
@@ -47,7 +48,7 @@
 	"lib.h"
 	"input.h"
 
-1462890446 source:e:\gustavo_petruzzi\input.c
+1463102956 source:e:\gustavo_petruzzi\input.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -56,7 +57,7 @@
 
 1462888000 e:\gustavo_petruzzi\input.h
 
-1462913370 source:e:\gustavo_petruzzi\lib.c
+1463101236 source:e:\gustavo_petruzzi\lib.c
 	<stdio.h>
 	<stdlib.h>
 	<ctype.h>
@@ -66,7 +67,7 @@
 
 1462912870 e:\gustavo_petruzzi\lib.h
 
-1462913044 source:e:\gustavo_petruzzi\main.c
+1463101026 source:e:\gustavo_petruzzi\main.c
 	<stdio.h>
 	<stdlib.h>
 	"lib.h"

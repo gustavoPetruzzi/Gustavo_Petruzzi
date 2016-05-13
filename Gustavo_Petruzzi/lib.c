@@ -63,9 +63,6 @@ int initArrayDirectores(eDirector* pDirector, int length)
  * \return la opcion elegida por el usuario segun los parametros min y max
  *
  */
-
-
-
 char mostrarMenu( char textomenu[], char min, char max )
 {
     char opcion;
@@ -74,6 +71,9 @@ char mostrarMenu( char textomenu[], char min, char max )
     scanf("%c",&opcion);
     return opcion;
 }
+
+
+
 
 /**
  * Obtiene el primer indice libre del array.
@@ -100,6 +100,9 @@ int obtenerEspacioLibre(ePelicula* pPelicula,int length)
     return index;
 }
 
+
+
+
 /** \brief Busca la posicion en el array del dato pasado por parametro
  *
  * \param ePelicula * pPelicula array donde busca lo pasado por parametro
@@ -108,8 +111,6 @@ int obtenerEspacioLibre(ePelicula* pPelicula,int length)
  * \return devuelve la posicion donde se haya el dato pasado por parametro
  *
  */
-
-
 int buscarPorIdPelicula(ePelicula* pPelicula, int length, int idPelicula)
 {
     int i;
@@ -132,6 +133,9 @@ int buscarPorIdPelicula(ePelicula* pPelicula, int length, int idPelicula)
     return index;
 }
 
+
+
+
 /** \brief le solicita datos al usuario
  *
  * \param ePelicula* pPelicula lugar donde recorre los indices
@@ -145,8 +149,6 @@ int buscarPorIdPelicula(ePelicula* pPelicula, int length, int idPelicula)
  * \return
  *
  */
-
-
 int pedirDatosPelicula(ePelicula* pPelicula, int lengthPelicula,eDirector* pDirector, int lengthDirector, char* titulo,int* anio, char* Nacionalidad,int* idDirector, int* idPelicula, int pedirId)
 {
     char auxTitulo[50];
@@ -236,12 +238,12 @@ int pedirDatosPelicula(ePelicula* pPelicula, int lengthPelicula,eDirector* pDire
                 }
             }
         }while(auxInt!=0 || seguir == 's');
-        printf("%c", seguir);
-        system("cls");
-
 
     return retorno;
 }
+
+
+
 /** \brief carga un elemento del array de estructura
  *
  * \param char auxTitulo[] dato a ser cargado en el array
@@ -252,8 +254,6 @@ int pedirDatosPelicula(ePelicula* pPelicula, int lengthPelicula,eDirector* pDire
  * \return un elemento del array de estructuras
  *
  */
-
-
 ePelicula cargarPelicula(char auxTitulo[],int auxAnio, char auxNacionalidad[],int auxIdDirector, int auxIdPelicula)
 {
     ePelicula auxPelicula;
@@ -268,6 +268,9 @@ ePelicula cargarPelicula(char auxTitulo[],int auxAnio, char auxNacionalidad[],in
     return auxPelicula;
 }
 
+
+
+
 /** \brief agrega un elemento al array de estructura en una posicion libre
  *
  * \param ePelicula* pPelicula array de estructura donde agrega el elemento
@@ -275,8 +278,6 @@ ePelicula cargarPelicula(char auxTitulo[],int auxAnio, char auxNacionalidad[],in
  * \return
  *
  */
-
-
 void agregarPelicula(ePelicula* pPelicula, int lengthPelicula,eDirector* pDirector, int lengthDirector)
 {
     int indice;
@@ -310,6 +311,9 @@ void agregarPelicula(ePelicula* pPelicula, int lengthPelicula,eDirector* pDirect
     }
 }
 
+
+
+
 /** \brief Indica si existe algun elemento cargado
  *
  * \param puntero lista[] lugar donde va a iterar la funcion
@@ -334,6 +338,9 @@ int isEmptyPelicula(ePelicula* pPelicula, int length)
     }
     return retorno;
 }
+
+
+
 
 
 /** \brief Indica si existe algun elemento cargado
@@ -361,6 +368,9 @@ int isEmptyDirector(eDirector* pDirector, int length)
     return retorno;
 }
 
+
+
+
 /** \brief modifica los datos cargados en algun elemento
  *
  * \param ePelicula* pPelicula array de estructuras donde busca el elemento a modificar
@@ -368,7 +378,6 @@ int isEmptyDirector(eDirector* pDirector, int length)
  * \return
  *
  */
-
 void modificar(ePelicula* pPelicula, int lengthPelicula,eDirector* pDirector, int lengthDirector)
 {
     int indice;
@@ -381,7 +390,8 @@ void modificar(ePelicula* pPelicula, int lengthPelicula,eDirector* pDirector, in
 
     if(pPelicula != NULL && lengthPelicula> 0)
     {
-        auxInt = getInt(&auxIdPelicula, "Ingrese el id a buscar", "ERROR: solamente se puede ingresar de 1 a 1000\n", 0, 1001);
+        auxInt = getInt(&auxIdPelicula, "Ingrese el id a buscar: ", "ERROR: solamente se puede ingresar de 1 a 1000\n", 0, 1001);
+        system("cls");
         if(auxInt==0)
         {
 
@@ -390,6 +400,7 @@ void modificar(ePelicula* pPelicula, int lengthPelicula,eDirector* pDirector, in
             {
                 pedirDatosPelicula(pPelicula, lengthPelicula,pDirector, lengthDirector, auxTitulo, &auxAnio, auxNacionalidad,&auxIdDirector, &auxIdPelicula, 0);
                 pPelicula[indice] = cargarPelicula(auxTitulo, auxAnio, auxNacionalidad, auxIdDirector, auxIdPelicula);
+                printf("Pelicula modificada!\n");
             }
             else
             {
@@ -399,6 +410,8 @@ void modificar(ePelicula* pPelicula, int lengthPelicula,eDirector* pDirector, in
     }
 }
 
+
+
 /** \brief borra un elemento cargado en el array
  *
  * \param ePelicula* pPelicula array de estructuras donde busca el elemento a modificar
@@ -406,7 +419,6 @@ void modificar(ePelicula* pPelicula, int lengthPelicula,eDirector* pDirector, in
  * \return
  *
  */
-
 void borrar(ePelicula* pPelicula, int length)
 {
     int auxIdPelicula;
@@ -421,10 +433,19 @@ void borrar(ePelicula* pPelicula, int length)
             if(indice != -1)
             {
                 pPelicula[indice].isEmpty = 1;
+                printf("Pelicula borrada!\n");
+
+            }
+            else
+            {
+                printf("Esa pelicula no existe! \n");
             }
         }
     }
 }
+
+
+
 
 
 /** \brief busca el indice del elemento segun el dato pasado por parametro
@@ -435,7 +456,6 @@ void borrar(ePelicula* pPelicula, int length)
  * \return indice del elemento buscado
  *
  */
-
 int buscarPorNombreDirector(eDirector* pDirector, int length, char nombre[])
 {
     int i;
@@ -459,6 +479,8 @@ int buscarPorNombreDirector(eDirector* pDirector, int length, char nombre[])
 }
 
 
+
+
 /** \brief busca el indice del elemento segun el dato pasado por parametro
  *
  * \param eDirector* pDirector array de estructura donde busca el indice
@@ -467,7 +489,6 @@ int buscarPorNombreDirector(eDirector* pDirector, int length, char nombre[])
  * \return indice del elemento buscado
  *
  */
-
 int buscarPorIdDirector(eDirector* pDirector, int length, int idDirector)
 {
     int i;
@@ -581,8 +602,6 @@ void pedirDatosDirector(eDirector* pDirector, int length,char* nombre,char* fech
  * \return un elemento del array de estructuras
  *
  */
-
-
 eDirector cargarDirector(char auxNombre[],char auxFechaNacimiento[],char auxPaisOrigen[], int auxIdDirector)
 {
     eDirector auxDirector;
@@ -596,13 +615,15 @@ eDirector cargarDirector(char auxNombre[],char auxFechaNacimiento[],char auxPais
     return auxDirector;
 }
 
+
+
+
 /**
  * Obtiene el primer indice libre del array.
  * @param eDirector* pDirector el array se pasa como parametro.
  * @param int length la cantidad total de items
  * @return el primer indice disponible o [-1] si no hay espacio libre
  */
-
 int obtenerEspacioLibreDirector(eDirector* pDirector,int length)
 {
     int index = -1;
@@ -627,6 +648,8 @@ int obtenerEspacioLibreDirector(eDirector* pDirector,int length)
     return index;
 }
 
+
+
 /** \brief agrega un elemento al array de estructura en una posicion libre
  *
  * \param eDirector* pDirector array de estructura donde agrega el elemento
@@ -634,7 +657,6 @@ int obtenerEspacioLibreDirector(eDirector* pDirector,int length)
  * \return
  *
  */
-
 void nuevoDirector(eDirector* pDirector, int length)
 {
     char auxNombre[50];
@@ -654,7 +676,7 @@ void nuevoDirector(eDirector* pDirector, int length)
         }
         else
         {
-            printf("No hay mas lugar para agregar peliculas!\n");
+            printf("No hay mas lugar para agregar directores!\n");
         }
     }
     else
@@ -663,6 +685,8 @@ void nuevoDirector(eDirector* pDirector, int length)
     }
 }
 
+
+
 /** \brief borra un elemento cargado en el array
  *
  * \param eDirector* pDirector array de estructuras donde busca el elemento a modificar
@@ -670,7 +694,6 @@ void nuevoDirector(eDirector* pDirector, int length)
  * \return
  *
  */
-
 void borrarDirector(eDirector* pDirector, int length)
 {
     char auxnombre[50];
@@ -704,7 +727,7 @@ void borrarDirector(eDirector* pDirector, int length)
             }
             else
             {
-                printf("No existe ningun producto con ese codigo\n!");
+                printf("No existe ningun director con ese nombre!\n");
             }
         }
     }
@@ -713,6 +736,9 @@ void borrarDirector(eDirector* pDirector, int length)
         printf("No ningun directorio de peliculas!");
     }
 }
+
+
+
 
 /** \brief Cuenta la cantidad de veces que figura el parametro pasado en un miembro del
            array de estructuras
@@ -724,7 +750,6 @@ void borrarDirector(eDirector* pDirector, int length)
            array de estructuras
  *
  */
-
 int cantidadPeliculasDirector(ePelicula* pPelicula, int length, int auxIdDirector)
 {
     int i;
@@ -752,6 +777,8 @@ int cantidadPeliculasDirector(ePelicula* pPelicula, int length, int auxIdDirecto
     return cantidadPeliculas;
 }
 
+
+
 /** \brief Busca el director con mas peliculas
  *
  * \param eDirector* pDirector array de estructuras
@@ -761,7 +788,6 @@ int cantidadPeliculasDirector(ePelicula* pPelicula, int length, int auxIdDirecto
  * \return  la posicion donde se encuentra el director con mas peliculas
  *
  */
-
 int directorMasPeliculas(eDirector* pDirector, int lengthDirectores, ePelicula* pPelicula, int lengthPelicula)
 {
     int i;
@@ -813,7 +839,6 @@ int directorMasPeliculas(eDirector* pDirector, int lengthDirectores, ePelicula* 
  * \return
  *
  */
-
 void informar(eDirector* pDirector, int lengthDirector, ePelicula* pPelicula, int lengthPelicula)
 {
     char opcion;
@@ -831,6 +856,8 @@ void informar(eDirector* pDirector, int lengthDirector, ePelicula* pPelicula, in
     }
 
 }
+
+
 
 /** \brief ordena el array estructura pasado por parametro
  *
@@ -867,6 +894,8 @@ void ordenar(ePelicula* pPelicula, int length)
     }
 }
 
+
+
 /** \brief muestra por pantalla los miembros de la estructura
  *
  * \param eDirector* pDirector array de estructuras
@@ -876,8 +905,6 @@ void ordenar(ePelicula* pPelicula, int length)
  * \return
  *
  */
-
-
 void mostrarPeliculas(ePelicula* pPelicula, int length, eDirector* pDirector, int lengthDirectores)
 {
     int i;
